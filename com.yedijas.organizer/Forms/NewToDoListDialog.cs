@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace com.yedijas.organizer
+namespace com.yedijas.organizer.Forms
 {
     public partial class NewToDoListDialog : Form
     {

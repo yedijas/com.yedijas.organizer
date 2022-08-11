@@ -5,52 +5,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.yedijas.organizer.logic.ToDos
+namespace com.yedijas.organizer.logic.Notes
 {
-    public class ToDoList
+    public class NoteList
     {
-        public List<ToDo> DaftarToDo { get; set; }
+        public List<Note> DaftarNote { get; set; }
 
-        public ToDoList()
+        public NoteList()
         {
-            DaftarToDo = new List<ToDo>();
+            DaftarNote = new List<Note>();
         }
 
-        public ToDoList(List<ToDo> _daftar)
+        public NoteList(List<Note> _daftar)
         {
-            DaftarToDo = _daftar;
+            DaftarNote = _daftar;
         }
 
-        public void AddItem(ToDo singleItem)
+        public void AddItem(Note singleNote)
         {
-            DaftarToDo.Add(singleItem);
-        }
-
-        public void MarkItemCompleted(int index)
-        {
-            DaftarToDo[index].MarkCompleted();
-        }
-
-        public void MarkItemPending(int index)
-        {
-            DaftarToDo[index].MarkPending();
+            DaftarNote.Add(singleNote);
         }
 
         public void RemoveItem(int index)
         {
-            DaftarToDo.RemoveAt(index);
+            DaftarNote.RemoveAt(index);
         }
 
-        public void RemoveAllItems(ToDo singleTDL)
+        public void RemoveAllItems(Note singleNote)
         {
-            DaftarToDo.RemoveAll(
-                stdl => stdl.Description.Equals(singleTDL.Description)
+            DaftarNote.RemoveAll(
+                sn => sn.Description.Equals(singleNote.Description) 
                 );
         }
 
         public DataTable ExportToDataTable()
         {
-            Type elementType = typeof(ToDo);
+            Type elementType = typeof(Note);
             DataTable t = new DataTable();
 
             t.Columns.Add("Index", typeof(int));
@@ -62,7 +52,7 @@ namespace com.yedijas.organizer.logic.ToDos
             }
 
             int index = 0;
-            foreach (ToDo item in DaftarToDo)
+            foreach (Note item in DaftarNote)
             {
                 DataRow row = t.NewRow();
 

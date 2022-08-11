@@ -1,5 +1,5 @@
 ﻿
-namespace com.yedijas.organizer
+namespace com.yedijas.organizer.Forms
 {
     partial class NewToDoListDialog
     {
@@ -40,7 +40,7 @@ namespace com.yedijas.organizer
             // btnDiscard
             // 
             this.btnDiscard.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnDiscard.Location = new System.Drawing.Point(138, 101);
+            this.btnDiscard.Location = new System.Drawing.Point(138, 64);
             this.btnDiscard.Name = "btnDiscard";
             this.btnDiscard.Size = new System.Drawing.Size(75, 23);
             this.btnDiscard.TabIndex = 0;
@@ -51,7 +51,7 @@ namespace com.yedijas.organizer
             // btnSubmit
             // 
             this.btnSubmit.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSubmit.Location = new System.Drawing.Point(235, 101);
+            this.btnSubmit.Location = new System.Drawing.Point(235, 64);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(75, 23);
             this.btnSubmit.TabIndex = 1;
@@ -71,7 +71,7 @@ namespace com.yedijas.organizer
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 57);
+            this.label2.Location = new System.Drawing.Point(12, 41);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 3;
@@ -79,7 +79,7 @@ namespace com.yedijas.organizer
             // 
             // tbDescription
             // 
-            this.tbDescription.Location = new System.Drawing.Point(110, 54);
+            this.tbDescription.Location = new System.Drawing.Point(110, 38);
             this.tbDescription.Name = "tbDescription";
             this.tbDescription.Size = new System.Drawing.Size(200, 20);
             this.tbDescription.TabIndex = 5;
@@ -95,13 +95,16 @@ namespace com.yedijas.organizer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 136);
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(644, 246);
             this.Controls.Add(this.dtpDeadline);
             this.Controls.Add(this.tbDescription);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.btnDiscard);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "NewToDoListDialog";
             this.Text = "New To Do List";
             this.ResumeLayout(false);

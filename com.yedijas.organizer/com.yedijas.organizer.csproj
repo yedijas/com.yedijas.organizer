@@ -46,24 +46,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewToDoListDialog.cs">
+    <Compile Include="Forms\NewNoteDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewToDoListDialog.Designer.cs">
+    <Compile Include="Forms\NewNoteDialog.Designer.cs">
+      <DependentUpon>NewNoteDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NewToDoListDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewToDoListDialog.Designer.cs">
       <DependentUpon>NewToDoListDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewToDoListDialog.resx">
+    <EmbeddedResource Include="Forms\NewNoteDialog.resx">
+      <DependentUpon>NewNoteDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewToDoListDialog.resx">
       <DependentUpon>NewToDoListDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
