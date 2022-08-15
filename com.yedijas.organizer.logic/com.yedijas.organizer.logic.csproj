@@ -49,6 +49,7 @@
     <Compile Include="Notes\NoteList.cs" />
     <Compile Include="Projects\Projects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskNotCompletedException.cs" />
     <Compile Include="Tasks\TaskList.cs" />
     <Compile Include="Tasks\Tasks.cs" />
     <Compile Include="ToDos\ToDoList.cs" />

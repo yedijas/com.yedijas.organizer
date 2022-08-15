@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using com.yedijas.organizer.logic.ToDos;
 using com.yedijas.organizer.logic.Notes;
+using com.yedijas.organizer.logic.Tasks;
+using com.yedijas.organizer.logic;
 
 namespace com.yedijas.organizer.Forms
 {
@@ -16,12 +18,14 @@ namespace com.yedijas.organizer.Forms
     {
         private ToDoList myToDoList;
         private NoteList myNoteList;
+        private TaskList myTaskList;
 
         public MainForm()
         {
             InitializeComponent();
             myToDoList = new ToDoList();
             myNoteList = new NoteList();
+            myTaskList = new TaskList();
             RefreshAll();
         }
 
@@ -32,7 +36,7 @@ namespace com.yedijas.organizer.Forms
             {
                 if (newTDLDialog.ShowDialog() == DialogResult.OK)
                 {
-                    myToDoList.AddItem(new logic.ToDos.ToDo(newTDLDialog.ToDoDeadline, newTDLDialog.ToDoDescription));
+                    myToDoList.AddItem(new ToDo(newTDLDialog.ToDoDescription));
                 }
             }
             RefreshToDoList();
@@ -40,23 +44,54 @@ namespace com.yedijas.organizer.Forms
 
         private void btnMarkTDLComplete_Click(object sender, EventArgs e)
         {
-            int rowIndex = dgvTDL.SelectedRows[0].Index;
-            myToDoList.MarkItemCompleted(rowIndex);
-            RefreshToDoList();
+            try
+            {
+
+                int rowIndex = dgvTDL.SelectedRows[0].Index;
+                if (MessageBox.Show(this, "Is the shit really completed?"
+                    , "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    myToDoList.MarkItemCompleted(rowIndex);
+                    RefreshToDoList();
+                }
+            }
+            catch (ArgumentOutOfRangeException aore)
+            {
+                MessageBox.Show(this, "Select a thing from the list, first!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnMarkTDLPending_Click(object sender, EventArgs e)
         {
-            int rowIndex = dgvTDL.SelectedRows[0].Index;
-            myToDoList.MarkItemPending(rowIndex);
-            RefreshToDoList();
+            try
+            {
+
+                int rowIndex = dgvTDL.SelectedRows[0].Index;
+                myToDoList.MarkItemPending(rowIndex);
+                RefreshToDoList();
+            }
+            catch (ArgumentOutOfRangeException aore)
+            {
+                MessageBox.Show(this, "Select a thing from the list, first!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnDeleteTDL_Click(object sender, EventArgs e)
         {
-            int rowIndex = dgvTDL.SelectedRows[0].Index;
-            myToDoList.MarkItemPending(rowIndex);
-            RefreshToDoList();
+            try
+            {
+
+                int rowIndex = dgvTDL.SelectedRows[0].Index;
+                myToDoList.MarkItemPending(rowIndex);
+                RefreshToDoList();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show(this, "Select a thing from the list, first!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void RefreshToDoList()
@@ -70,9 +105,17 @@ namespace com.yedijas.organizer.Forms
         #region notes
         private void btnDeleteNote_Click(object sender, EventArgs e)
         {
-            int rowindex = dgvNote.SelectedRows[0].Index;
-            myNoteList.RemoveItem(rowindex);
-            RefreshNoteList();
+            try
+            {
+                int rowindex = dgvNote.SelectedRows[0].Index;
+                myNoteList.RemoveItem(rowindex);
+                RefreshNoteList();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show(this, "Select a thing from the list, first!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnAddNewNote_Click(object sender, EventArgs e)
@@ -98,12 +141,73 @@ namespace com.yedijas.organizer.Forms
         #region tasks
         private void btnAddNewTasks_Click(object sender, EventArgs e)
         {
-
+            using (NewTaskDialog newTaskDialog = new NewTaskDialog())
+            {
+                if (newTaskDialog.ShowDialog() == DialogResult.OK)
+                {
+                    myTaskList.AddItem(new Tasks(newTaskDialog.DeadLine, newTaskDialog.Description));
+                }
+            }
+            RefreshTaskList();
         }
 
-        private void btnDeleteTasks_Click(object sender, EventArgs e)
-        {
 
+
+        private void btDeleteTask_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int rowindex = dgvTasks.SelectedRows[0].Index;
+
+                myTaskList.RemoveItem(rowindex);
+                RefreshNoteList();
+            }
+            catch (TaskNotCompletedException tce)
+            {
+                MessageBox.Show(this, tce.Message, "Error!",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCompleteTasks_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int rowindex = dgvTasks.SelectedRows[0].Index;
+
+                if (MessageBox.Show(this, "Have you really done \"" + myTaskList.GetDescription(rowindex) + "\" ?"
+                    , "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    myTaskList.MarkItemCompleted(rowindex);
+                    RefreshNoteList();
+                }
+
+                if (MessageBox.Show(this, "Do you want to remove the task?"
+                    , "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    myTaskList.RemoveItem(rowindex);
+                    RefreshNoteList();
+                }
+
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show(this, "Select a thing from the list, first!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (TaskNotCompletedException tce)
+            {
+                MessageBox.Show(this, tce.Message, "Error!",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            RefreshTaskList();
+        }
+
+        private void RefreshTaskList()
+        {
+            dgvTasks.DataSource = myTaskList.ExportToDataTable();
+            dgvTasks.Update();
+            dgvTasks.Refresh();
         }
         #endregion
 
@@ -112,6 +216,7 @@ namespace com.yedijas.organizer.Forms
         {
             RefreshToDoList();
             RefreshNoteList();
+            RefreshTaskList();
         }
         #endregion
     }

@@ -31,6 +31,8 @@ namespace com.yedijas.organizer.Forms
         {
             this.TDLGroupBox = new System.Windows.Forms.GroupBox();
             this.btnDeleteTDL = new System.Windows.Forms.Button();
+            this.btnMarkTDLPending = new System.Windows.Forms.Button();
+            this.btnMarkTDLComplete = new System.Windows.Forms.Button();
             this.btnAddNewTDL = new System.Windows.Forms.Button();
             this.dgvTDL = new System.Windows.Forms.DataGridView();
             this.NotesGroupBox = new System.Windows.Forms.GroupBox();
@@ -38,11 +40,10 @@ namespace com.yedijas.organizer.Forms
             this.dgvNote = new System.Windows.Forms.DataGridView();
             this.btnAddNewNote = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnDeleteTasks = new System.Windows.Forms.Button();
+            this.btnCompleteTasks = new System.Windows.Forms.Button();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
             this.btnAddNewTasks = new System.Windows.Forms.Button();
-            this.btnMarkTDLPending = new System.Windows.Forms.Button();
-            this.btnMarkTDLComplete = new System.Windows.Forms.Button();
+            this.btDeleteTask = new System.Windows.Forms.Button();
             this.TDLGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTDL)).BeginInit();
             this.NotesGroupBox.SuspendLayout();
@@ -74,6 +75,26 @@ namespace com.yedijas.organizer.Forms
             this.btnDeleteTDL.Text = "Delete";
             this.btnDeleteTDL.UseVisualStyleBackColor = true;
             this.btnDeleteTDL.Click += new System.EventHandler(this.btnDeleteTDL_Click);
+            // 
+            // btnMarkTDLPending
+            // 
+            this.btnMarkTDLPending.Location = new System.Drawing.Point(214, 256);
+            this.btnMarkTDLPending.Name = "btnMarkTDLPending";
+            this.btnMarkTDLPending.Size = new System.Drawing.Size(107, 23);
+            this.btnMarkTDLPending.TabIndex = 3;
+            this.btnMarkTDLPending.Text = "Mark Pending";
+            this.btnMarkTDLPending.UseVisualStyleBackColor = true;
+            this.btnMarkTDLPending.Click += new System.EventHandler(this.btnMarkTDLPending_Click);
+            // 
+            // btnMarkTDLComplete
+            // 
+            this.btnMarkTDLComplete.Location = new System.Drawing.Point(327, 256);
+            this.btnMarkTDLComplete.Name = "btnMarkTDLComplete";
+            this.btnMarkTDLComplete.Size = new System.Drawing.Size(107, 23);
+            this.btnMarkTDLComplete.TabIndex = 2;
+            this.btnMarkTDLComplete.Text = "Mark Completed";
+            this.btnMarkTDLComplete.UseVisualStyleBackColor = true;
+            this.btnMarkTDLComplete.Click += new System.EventHandler(this.btnMarkTDLComplete_Click);
             // 
             // btnAddNewTDL
             // 
@@ -143,7 +164,8 @@ namespace com.yedijas.organizer.Forms
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnDeleteTasks);
+            this.groupBox1.Controls.Add(this.btDeleteTask);
+            this.groupBox1.Controls.Add(this.btnCompleteTasks);
             this.groupBox1.Controls.Add(this.dgvTasks);
             this.groupBox1.Controls.Add(this.btnAddNewTasks);
             this.groupBox1.Location = new System.Drawing.Point(12, 294);
@@ -153,15 +175,15 @@ namespace com.yedijas.organizer.Forms
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tasks";
             // 
-            // btnDeleteTasks
+            // btnCompleteTasks
             // 
-            this.btnDeleteTasks.Location = new System.Drawing.Point(327, 257);
-            this.btnDeleteTasks.Name = "btnDeleteTasks";
-            this.btnDeleteTasks.Size = new System.Drawing.Size(107, 23);
-            this.btnDeleteTasks.TabIndex = 5;
-            this.btnDeleteTasks.Text = "Mark Completed";
-            this.btnDeleteTasks.UseVisualStyleBackColor = true;
-            this.btnDeleteTasks.Click += new System.EventHandler(this.btnDeleteTasks_Click);
+            this.btnCompleteTasks.Location = new System.Drawing.Point(327, 257);
+            this.btnCompleteTasks.Name = "btnCompleteTasks";
+            this.btnCompleteTasks.Size = new System.Drawing.Size(107, 23);
+            this.btnCompleteTasks.TabIndex = 5;
+            this.btnCompleteTasks.Text = "Mark Completed";
+            this.btnCompleteTasks.UseVisualStyleBackColor = true;
+            this.btnCompleteTasks.Click += new System.EventHandler(this.btnCompleteTasks_Click);
             // 
             // dgvTasks
             // 
@@ -185,25 +207,15 @@ namespace com.yedijas.organizer.Forms
             this.btnAddNewTasks.UseVisualStyleBackColor = true;
             this.btnAddNewTasks.Click += new System.EventHandler(this.btnAddNewTasks_Click);
             // 
-            // btnMarkTDLPending
+            // btDeleteTask
             // 
-            this.btnMarkTDLPending.Location = new System.Drawing.Point(214, 256);
-            this.btnMarkTDLPending.Name = "btnMarkTDLPending";
-            this.btnMarkTDLPending.Size = new System.Drawing.Size(107, 23);
-            this.btnMarkTDLPending.TabIndex = 3;
-            this.btnMarkTDLPending.Text = "Mark Pending";
-            this.btnMarkTDLPending.UseVisualStyleBackColor = true;
-            this.btnMarkTDLPending.Click += new System.EventHandler(this.btnMarkTDLPending_Click);
-            // 
-            // btnMarkTDLComplete
-            // 
-            this.btnMarkTDLComplete.Location = new System.Drawing.Point(327, 256);
-            this.btnMarkTDLComplete.Name = "btnMarkTDLComplete";
-            this.btnMarkTDLComplete.Size = new System.Drawing.Size(107, 23);
-            this.btnMarkTDLComplete.TabIndex = 2;
-            this.btnMarkTDLComplete.Text = "Mark Completed";
-            this.btnMarkTDLComplete.UseVisualStyleBackColor = true;
-            this.btnMarkTDLComplete.Click += new System.EventHandler(this.btnMarkTDLComplete_Click);
+            this.btDeleteTask.Location = new System.Drawing.Point(214, 257);
+            this.btDeleteTask.Name = "btDeleteTask";
+            this.btDeleteTask.Size = new System.Drawing.Size(107, 23);
+            this.btDeleteTask.TabIndex = 7;
+            this.btDeleteTask.Text = "Delete";
+            this.btDeleteTask.UseVisualStyleBackColor = true;
+            this.btDeleteTask.Click += new System.EventHandler(this.btDeleteTask_Click);
             // 
             // MainForm
             // 
@@ -240,11 +252,12 @@ namespace com.yedijas.organizer.Forms
         private System.Windows.Forms.Button btnAddNewNote;
         private System.Windows.Forms.Button btnDeleteTDL;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnDeleteTasks;
+        private System.Windows.Forms.Button btnCompleteTasks;
         private System.Windows.Forms.DataGridView dgvTasks;
         private System.Windows.Forms.Button btnAddNewTasks;
         private System.Windows.Forms.Button btnMarkTDLPending;
         private System.Windows.Forms.Button btnMarkTDLComplete;
+        private System.Windows.Forms.Button btDeleteTask;
     }
 }
 

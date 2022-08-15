@@ -19,7 +19,7 @@ namespace com.yedijas.organizer.logic.ToDos
             Description = "";
         }
 
-        public ToDo(DateTime _deadline, string _desc)
+        public ToDo(string _desc)
         {
             Completed = false;
             Created = DateTime.Now;

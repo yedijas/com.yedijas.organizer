@@ -32,10 +32,5 @@ namespace com.yedijas.organizer.logic.Tasks
         {
             Completed = true;
         }
-
-        public void MarkPending()
-        {
-            Completed = false;
-        }
     }
 }

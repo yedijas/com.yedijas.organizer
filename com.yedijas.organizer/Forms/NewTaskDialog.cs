@@ -10,18 +10,21 @@ using System.Windows.Forms;
 
 namespace com.yedijas.organizer.Forms
 {
-    public partial class NewToDoListDialog : Form
+    public partial class NewTaskDialog : Form
     {
-        public String ToDoDescription;
+        public string Description;
+        public DateTime DeadLine;
 
-        public NewToDoListDialog()
+        public NewTaskDialog()
         {
             InitializeComponent();
+            dtpDeadline.Value = DateTime.Now;
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            ToDoDescription = tbDescription.Text;
+            Description = tbDescription.Text;
+            DeadLine = dtpDeadline.Value;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
