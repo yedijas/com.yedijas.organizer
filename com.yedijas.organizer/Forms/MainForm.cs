@@ -95,6 +95,18 @@ namespace com.yedijas.organizer.Forms
         }
         #endregion
 
+        #region tasks
+        private void btnAddNewTasks_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDeleteTasks_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
         #region combined
         private void RefreshAll()
         {

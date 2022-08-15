@@ -10,14 +10,12 @@ namespace com.yedijas.organizer.logic.ToDos
     {
         public bool Completed { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Deadline { get; set; }
         public string Description { get; set; }
 
         public ToDo()
         {
             Completed = false;
             Created = DateTime.Now;
-            Deadline = Created.AddHours(1);
             Description = "";
         }
 
@@ -25,7 +23,6 @@ namespace com.yedijas.organizer.logic.ToDos
         {
             Completed = false;
             Created = DateTime.Now;
-            Deadline = _deadline;
             Description = _desc;
         }
 
