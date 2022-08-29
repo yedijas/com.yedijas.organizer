@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace com.yedijas.organizer.logic.Tasks
+namespace com.yedijas.organizer.logic
 {
-    public class Tasks
+    public class Tugas
     {
         public int ID { get; set; }
         public bool Completed { get; set; }
         public DateTime Created { get; set; }
         public string Description { get; set; }
         public DateTime Deadline { get; set; }
-        public Tasks()
+        public Tugas()
         {
             Completed = false;
             Created = DateTime.Now;
@@ -21,17 +17,12 @@ namespace com.yedijas.organizer.logic.Tasks
             Description = "";
         }
 
-        public Tasks(DateTime _deadline, string _desc)
+        public Tugas(DateTime _deadline, string _desc)
         {
             Completed = false;
             Created = DateTime.Now;
             Deadline = _deadline;
             Description = _desc;
-        }
-
-        public void MarkCompleted()
-        {
-            Completed = true;
         }
 
         public override bool Equals(object obj)
@@ -42,7 +33,7 @@ namespace com.yedijas.organizer.logic.Tasks
             }
             else
             {
-                Tasks n = (Tasks)obj;
+                Tugas n = (Tugas)obj;
                 return n.ID == this.ID &&
                     n.Description.Equals(this.Description) &&
                     n.Deadline.Equals(this.Deadline) &&

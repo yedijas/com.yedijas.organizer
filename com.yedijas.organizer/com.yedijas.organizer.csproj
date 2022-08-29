@@ -74,6 +74,7 @@
     <Compile Include="Forms\NewToDoListDialog.Designer.cs">
       <DependentUpon>NewToDoListDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\MainForm.resx">

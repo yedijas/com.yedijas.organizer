@@ -1,40 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using com.yedijas.organizer.logic.ToDos;
-using com.yedijas.organizer.logic.Notes;
-using com.yedijas.organizer.logic.Tasks;
-using com.yedijas.organizer.logic.Helper;
 using com.yedijas.organizer.logic;
 
 namespace com.yedijas.organizer.Forms
 {
     public partial class MainForm : Form
     {
-        private ToDoList myToDoList;
-        private TaskList myTaskList;
-
         public MainForm()
         {
             InitializeComponent();
             InitDB();
-            InitLists();
             RefreshAll();
         }
 
         #region basic function
-        private void InitLists()
-        {
-            myToDoList = new ToDoList();
-            myTaskList = new TaskList();
-        }
-
         private void InitDB()
         {
             DBHelper.InitDB();
@@ -48,7 +27,7 @@ namespace com.yedijas.organizer.Forms
             {
                 if (newTDLDialog.ShowDialog() == DialogResult.OK)
                 {
-                    myToDoList.AddItem(new ToDo(newTDLDialog.ToDoDescription));
+                    DBHelper.AddItem<ToDo>(new ToDo(newTDLDialog.ToDoDescription));
                 }
             }
             RefreshToDoList();
@@ -58,16 +37,23 @@ namespace com.yedijas.organizer.Forms
         {
             try
             {
-
-                int rowIndex = dgvTDL.SelectedRows[0].Index;
-                if (MessageBox.Show(this, "Is the shit really completed?"
-                    , "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if ((bool)dgvTDL.SelectedRows[0].Cells["Completed"].Value == false)
                 {
-                    myToDoList.MarkItemCompleted(rowIndex);
-                    RefreshToDoList();
+                    if (MessageBox.Show(this, "Is the shit really completed?"
+                    , "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        DBHelper.Update<ToDo>(new ToDo
+                        {
+                            Completed = true,
+                            Created = (DateTime)dgvTDL.SelectedRows[0].Cells["Created"].Value,
+                            Description = (string)dgvTDL.SelectedRows[0].Cells["Description"].Value,
+                            ID = (int)dgvTDL.SelectedRows[0].Cells["ID"].Value
+                        });
+                        RefreshToDoList();
+                    }
                 }
             }
-            catch (ArgumentOutOfRangeException aore)
+            catch (ArgumentOutOfRangeException)
             {
                 MessageBox.Show(this, "Select a thing from the list, first!", "Error!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -78,12 +64,16 @@ namespace com.yedijas.organizer.Forms
         {
             try
             {
-
-                int rowIndex = dgvTDL.SelectedRows[0].Index;
-                myToDoList.MarkItemPending(rowIndex);
+                DBHelper.Update<ToDo>(new ToDo
+                {
+                    Completed = false,
+                    Created = (DateTime)dgvTDL.SelectedRows[0].Cells["Created"].Value,
+                    Description = (string)dgvTDL.SelectedRows[0].Cells["Description"].Value,
+                    ID = (int)dgvTDL.SelectedRows[0].Cells["ID"].Value
+                });
                 RefreshToDoList();
             }
-            catch (ArgumentOutOfRangeException aore)
+            catch (ArgumentOutOfRangeException)
             {
                 MessageBox.Show(this, "Select a thing from the list, first!", "Error!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -94,14 +84,17 @@ namespace com.yedijas.organizer.Forms
         {
             try
             {
-
-                int rowIndex = dgvTDL.SelectedRows[0].Index;
-                myToDoList.MarkItemPending(rowIndex);
+                DBHelper.DeleteItemByID<ToDo>((int)dgvTDL.SelectedRows[0].Cells["ID"].Value);
                 RefreshToDoList();
             }
             catch (ArgumentOutOfRangeException)
             {
                 MessageBox.Show(this, "Select a thing from the list, first!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (TaskNotCompletedException)
+            {
+                MessageBox.Show(this, "Only completed task may be closed.", "Error!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -156,7 +149,7 @@ namespace com.yedijas.organizer.Forms
             {
                 if (newTaskDialog.ShowDialog() == DialogResult.OK)
                 {
-                    myTaskList.AddItem(new Tasks(newTaskDialog.DeadLine, newTaskDialog.Description));
+                    DBHelper.AddItem<Tugas>(new Tugas(newTaskDialog.DeadLine, newTaskDialog.Description));
                 }
             }
             RefreshTaskList();
@@ -166,10 +159,12 @@ namespace com.yedijas.organizer.Forms
         {
             try
             {
-                int rowindex = dgvTasks.SelectedRows[0].Index;
-
-                myTaskList.RemoveItem(rowindex);
-                RefreshNoteList();
+                if ((bool)dgvTasks.SelectedRows[0].Cells["Completed"].Value == false)
+                {
+                    throw new TaskNotCompletedException("Task must be completed before you may delete it!");
+                }
+                DBHelper.DeleteItemByID<Tugas>((int)dgvTDL.SelectedRows[0].Cells["ID"].Value);
+                RefreshTaskList();
             }
             catch (TaskNotCompletedException tce)
             {
@@ -182,19 +177,27 @@ namespace com.yedijas.organizer.Forms
         {
             try
             {
-                int rowindex = dgvTasks.SelectedRows[0].Index;
+                int rowindex = (int)dgvTasks.SelectedRows[0].Cells["ID"].Value;
+                string desc = (string)dgvTDL.SelectedRows[0].Cells["Description"].Value;
 
-                if (MessageBox.Show(this, "Have you really done \"" + myTaskList.GetDescription(rowindex) + "\" ?"
+                if (MessageBox.Show(this, "Have you really done \"" + desc + "\" ?"
                     , "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    myTaskList.MarkItemCompleted(rowindex);
+                    DBHelper.Update<Tugas>(new Tugas
+                    {
+                        Completed = true,
+                        Created = (DateTime)dgvTDL.SelectedRows[0].Cells["Created"].Value,
+                        Description = desc,
+                        Deadline = (DateTime)dgvTDL.SelectedRows[0].Cells["Deadline"].Value,
+                        ID = rowindex
+                    });
                     RefreshNoteList();
                 }
 
                 if (MessageBox.Show(this, "Do you want to remove the task?"
                     , "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    myTaskList.RemoveItem(rowindex);
+                    DBHelper.DeleteItemByID<Tugas>(rowindex);
                     RefreshNoteList();
                 }
 
@@ -214,7 +217,7 @@ namespace com.yedijas.organizer.Forms
 
         private void RefreshTaskList()
         {
-            dgvTasks.DataSource = DBHelper.AllToDataTable<Tasks>();
+            dgvTasks.DataSource = DBHelper.AllToDataTable<Tugas>();
             dgvTasks.Update();
             dgvTasks.Refresh();
         }

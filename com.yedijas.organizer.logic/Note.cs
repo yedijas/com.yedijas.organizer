@@ -1,40 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace com.yedijas.organizer.logic.ToDos
+namespace com.yedijas.organizer.logic
 {
-    public class ToDo
+    public class Note
     {
         public int ID { get; set; }
-        public bool Completed { get; set; }
-        public DateTime Created { get; set; }
         public string Description { get; set; }
+        public DateTime Created { get; set; }
 
-        public ToDo()
+        public Note()
         {
-            Completed = false;
-            Created = DateTime.Now;
             Description = "";
-        }
-
-        public ToDo(string _desc)
-        {
-            Completed = false;
             Created = DateTime.Now;
-            Description = _desc;
         }
 
-        public void MarkCompleted()
+        public Note(string _description)
         {
-            Completed = true;
+            Description = _description;
+            Created = DateTime.Now;
         }
 
-        public void MarkPending()
+        public Note(string _description, DateTime _created)
         {
-            Completed = false;
+            Description = _description;
+            Created = _created;
         }
 
         public override bool Equals(object obj)
@@ -45,7 +34,7 @@ namespace com.yedijas.organizer.logic.ToDos
             }
             else
             {
-                ToDo n = (ToDo)obj;
+                Note n = (Note) obj;
                 return n.ID == this.ID &&
                     n.Description.Equals(this.Description) &&
                     n.Created.Equals(this.Created);

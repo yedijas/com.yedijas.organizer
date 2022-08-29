@@ -2,6 +2,9 @@
 
 namespace com.yedijas.organizer.logic
 {
+    /// <summary>
+    /// This is to ensure that I close the task before deleting it.
+    /// </summary>
     public class TaskNotCompletedException : Exception
     {
         public TaskNotCompletedException()

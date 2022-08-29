@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using LiteDB;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 
-namespace com.yedijas.organizer.logic.Helper
+namespace com.yedijas.organizer.logic
 {
     public static class DBHelper
     {
@@ -122,24 +120,25 @@ namespace com.yedijas.organizer.logic.Helper
             return Convert.ChangeType(value, type);
         }
 
-        public static bool DeleteItemByID<T>(int ID)
+        public static void Update<T>(T newValues)
         {
-            bool success = false;
             Type elementType = typeof(T);
             var col = mydb.GetCollection<T>(elementType.Name);
-            col.Delete(ID);
-
-            return success;
+            col.Update(newValues);
         }
 
-        public static bool DeleteItems<T>(T item)
+        public static bool DeleteItemByID<T>(int ID)
         {
-            bool success = false;
             Type elementType = typeof(T);
             var col = mydb.GetCollection<T>(elementType.Name);
-            col.DeleteMany(t => t.Equals(item));
+            return col.Delete(ID);
+        }
 
-            return success;
+        public static int DeleteItems<T>(T item)
+        {
+            Type elementType = typeof(T);
+            var col = mydb.GetCollection<T>(elementType.Name);
+            return col.DeleteMany(t => t.Equals(item));
         }
     }
 }
