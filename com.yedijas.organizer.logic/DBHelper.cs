@@ -73,6 +73,34 @@ namespace com.yedijas.organizer.logic
             return col.Query().ToList();
         }
 
+        public static ILiteQueryable<T> GetDataCollection<T>()
+        {
+            Type elementType = typeof(T);
+            var col = mydb.GetCollection<T>(elementType.Name);
+            return col.Query();
+        }
+
+        public static void Update<T>(T newValues)
+        {
+            Type elementType = typeof(T);
+            var col = mydb.GetCollection<T>(elementType.Name);
+            col.Update(newValues);
+        }
+
+        public static bool DeleteItemByID<T>(int ID)
+        {
+            Type elementType = typeof(T);
+            var col = mydb.GetCollection<T>(elementType.Name);
+            return col.Delete(ID);
+        }
+
+        public static int DeleteItems<T>(T item)
+        {
+            Type elementType = typeof(T);
+            var col = mydb.GetCollection<T>(elementType.Name);
+            return col.DeleteMany(t => t.Equals(item));
+        }
+
         public static T ToObject<T>(this DataRow dataRow)
         where T : new()
         {
@@ -118,27 +146,6 @@ namespace com.yedijas.organizer.logic
             }
 
             return Convert.ChangeType(value, type);
-        }
-
-        public static void Update<T>(T newValues)
-        {
-            Type elementType = typeof(T);
-            var col = mydb.GetCollection<T>(elementType.Name);
-            col.Update(newValues);
-        }
-
-        public static bool DeleteItemByID<T>(int ID)
-        {
-            Type elementType = typeof(T);
-            var col = mydb.GetCollection<T>(elementType.Name);
-            return col.Delete(ID);
-        }
-
-        public static int DeleteItems<T>(T item)
-        {
-            Type elementType = typeof(T);
-            var col = mydb.GetCollection<T>(elementType.Name);
-            return col.DeleteMany(t => t.Equals(item));
         }
     }
 }

@@ -40,10 +40,10 @@ namespace com.yedijas.organizer.Forms
             this.dgvNote = new System.Windows.Forms.DataGridView();
             this.btnAddNewNote = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btDeleteTask = new System.Windows.Forms.Button();
             this.btnCompleteTasks = new System.Windows.Forms.Button();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
             this.btnAddNewTasks = new System.Windows.Forms.Button();
-            this.btDeleteTask = new System.Windows.Forms.Button();
             this.TDLGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTDL)).BeginInit();
             this.NotesGroupBox.SuspendLayout();
@@ -114,9 +114,11 @@ namespace com.yedijas.organizer.Forms
             this.dgvTDL.Location = new System.Drawing.Point(7, 20);
             this.dgvTDL.MultiSelect = false;
             this.dgvTDL.Name = "dgvTDL";
+            this.dgvTDL.ReadOnly = true;
             this.dgvTDL.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTDL.Size = new System.Drawing.Size(508, 230);
             this.dgvTDL.TabIndex = 0;
+            this.dgvTDL.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvTDL_DataBindingComplete);
             // 
             // NotesGroupBox
             // 
@@ -148,6 +150,7 @@ namespace com.yedijas.organizer.Forms
             this.dgvNote.Location = new System.Drawing.Point(7, 19);
             this.dgvNote.MultiSelect = false;
             this.dgvNote.Name = "dgvNote";
+            this.dgvNote.ReadOnly = true;
             this.dgvNote.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvNote.Size = new System.Drawing.Size(508, 232);
             this.dgvNote.TabIndex = 4;
@@ -175,6 +178,16 @@ namespace com.yedijas.organizer.Forms
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tasks";
             // 
+            // btDeleteTask
+            // 
+            this.btDeleteTask.Location = new System.Drawing.Point(214, 257);
+            this.btDeleteTask.Name = "btDeleteTask";
+            this.btDeleteTask.Size = new System.Drawing.Size(107, 23);
+            this.btDeleteTask.TabIndex = 7;
+            this.btDeleteTask.Text = "Delete";
+            this.btDeleteTask.UseVisualStyleBackColor = true;
+            this.btDeleteTask.Click += new System.EventHandler(this.btDeleteTask_Click);
+            // 
             // btnCompleteTasks
             // 
             this.btnCompleteTasks.Location = new System.Drawing.Point(327, 257);
@@ -193,9 +206,11 @@ namespace com.yedijas.organizer.Forms
             this.dgvTasks.Location = new System.Drawing.Point(7, 19);
             this.dgvTasks.MultiSelect = false;
             this.dgvTasks.Name = "dgvTasks";
+            this.dgvTasks.ReadOnly = true;
             this.dgvTasks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTasks.Size = new System.Drawing.Size(508, 232);
             this.dgvTasks.TabIndex = 4;
+            this.dgvTasks.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvTasks_DataBindingComplete);
             // 
             // btnAddNewTasks
             // 
@@ -206,16 +221,6 @@ namespace com.yedijas.organizer.Forms
             this.btnAddNewTasks.Text = "Add New";
             this.btnAddNewTasks.UseVisualStyleBackColor = true;
             this.btnAddNewTasks.Click += new System.EventHandler(this.btnAddNewTasks_Click);
-            // 
-            // btDeleteTask
-            // 
-            this.btDeleteTask.Location = new System.Drawing.Point(214, 257);
-            this.btDeleteTask.Name = "btDeleteTask";
-            this.btDeleteTask.Size = new System.Drawing.Size(107, 23);
-            this.btDeleteTask.TabIndex = 7;
-            this.btDeleteTask.Text = "Delete";
-            this.btDeleteTask.UseVisualStyleBackColor = true;
-            this.btDeleteTask.Click += new System.EventHandler(this.btDeleteTask_Click);
             // 
             // MainForm
             // 

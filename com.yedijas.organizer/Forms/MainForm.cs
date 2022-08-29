@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 using com.yedijas.organizer.logic;
 
@@ -9,7 +11,12 @@ namespace com.yedijas.organizer.Forms
         public MainForm()
         {
             InitializeComponent();
+            dgvNote.RowHeadersVisible = false;
+            dgvTasks.RowHeadersVisible = false;
+            dgvTDL.RowHeadersVisible = false;
+
             InitDB();
+            ShowAlert();
             RefreshAll();
         }
 
@@ -105,6 +112,30 @@ namespace com.yedijas.organizer.Forms
             dgvTDL.Update();
             dgvTDL.Refresh();
         }
+
+        private void dgvTDL_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvTasks.Rows)
+            {
+                if ((bool)row.Cells["Completed"].Value == false &&
+                        (DateTime)row.Cells["Deadline"].Value < DateTime.Now)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Red;
+                    row.DefaultCellStyle.ForeColor = Color.White;
+                }
+                else if ((bool)row.Cells["Completed"].Value == false &&
+                        (DateTime)row.Cells["Deadline"].Value < DateTime.Now.AddHours(2))
+                {
+                    row.DefaultCellStyle.BackColor = Color.Orange;
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+                }
+                else if ((bool)row.Cells["Completed"].Value == true)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Green;
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
+        }
         #endregion
 
         #region notes
@@ -178,7 +209,7 @@ namespace com.yedijas.organizer.Forms
             try
             {
                 int rowindex = (int)dgvTasks.SelectedRows[0].Cells["ID"].Value;
-                string desc = (string)dgvTDL.SelectedRows[0].Cells["Description"].Value;
+                string desc = (string)dgvTasks.SelectedRows[0].Cells["Description"].Value;
 
                 if (MessageBox.Show(this, "Have you really done \"" + desc + "\" ?"
                     , "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
@@ -186,19 +217,19 @@ namespace com.yedijas.organizer.Forms
                     DBHelper.Update<Tugas>(new Tugas
                     {
                         Completed = true,
-                        Created = (DateTime)dgvTDL.SelectedRows[0].Cells["Created"].Value,
+                        Created = (DateTime)dgvTasks.SelectedRows[0].Cells["Created"].Value,
                         Description = desc,
-                        Deadline = (DateTime)dgvTDL.SelectedRows[0].Cells["Deadline"].Value,
+                        Deadline = (DateTime)dgvTasks.SelectedRows[0].Cells["Deadline"].Value,
                         ID = rowindex
                     });
-                    RefreshNoteList();
+                    RefreshTaskList();
                 }
 
                 if (MessageBox.Show(this, "Do you want to remove the task?"
                     , "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     DBHelper.DeleteItemByID<Tugas>(rowindex);
-                    RefreshNoteList();
+                    RefreshTaskList();
                 }
 
             }
@@ -221,6 +252,30 @@ namespace com.yedijas.organizer.Forms
             dgvTasks.Update();
             dgvTasks.Refresh();
         }
+
+        private void dgvTasks_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvTasks.Rows)
+            {
+                if ((bool)row.Cells["Completed"].Value == false &&
+                        (DateTime)row.Cells["Deadline"].Value < DateTime.Now)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Red;
+                    row.DefaultCellStyle.ForeColor = Color.White;
+                }
+                else if ((bool)row.Cells["Completed"].Value == false &&
+                        (DateTime)row.Cells["Deadline"].Value < DateTime.Now.AddHours(2))
+                {
+                    row.DefaultCellStyle.BackColor = Color.Orange;
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+                }
+                else if ((bool)row.Cells["Completed"].Value == true)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Green;
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
+        }
         #endregion
 
         #region combined
@@ -229,6 +284,18 @@ namespace com.yedijas.organizer.Forms
             RefreshToDoList();
             RefreshNoteList();
             RefreshTaskList();
+        }
+
+        private void ShowAlert()
+        {
+            StringBuilder sb = new StringBuilder();
+            int pendingTasks = DBHelper.GetDataCollection<Tugas>().Where(x => x.Completed == false && x.Deadline < DateTime.Now).Count();
+            sb.Append("You have " + pendingTasks + " pending tasks as of today!\n");
+
+            int pendingTDL = DBHelper.GetDataCollection<ToDo>().Where(x => x.Completed == false).Count();
+            sb.Append("You have " + pendingTDL + " pending items in your to-do list!\n");
+
+            MessageBox.Show(this, sb.ToString(), "ALERT!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
     }
