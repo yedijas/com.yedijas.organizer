@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using com.yedijas.organizer.logic.ToDos;
 using com.yedijas.organizer.logic.Notes;
 using com.yedijas.organizer.logic.Tasks;
+using com.yedijas.organizer.logic.Helper;
 using com.yedijas.organizer.logic;
 
 namespace com.yedijas.organizer.Forms
@@ -19,15 +20,28 @@ namespace com.yedijas.organizer.Forms
         private ToDoList myToDoList;
         private NoteList myNoteList;
         private TaskList myTaskList;
+        private DBHelper myDBHelper;
 
         public MainForm()
         {
             InitializeComponent();
+            InitLists();
+            RefreshAll();
+        }
+
+        #region basic function
+        private void InitLists()
+        {
             myToDoList = new ToDoList();
             myNoteList = new NoteList();
             myTaskList = new TaskList();
-            RefreshAll();
         }
+
+        private void InitDB()
+        {
+            myDBHelper = new DBHelper();
+        }
+        #endregion
 
         #region to-do list
         private void btnAddNewTDL_Click(object sender, EventArgs e)
@@ -96,7 +110,7 @@ namespace com.yedijas.organizer.Forms
 
         private void RefreshToDoList()
         {
-            dgvTDL.DataSource = myToDoList.ExportToDataTable();
+            dgvTDL.DataSource = myDBHelper.ToDataTable<ToDo>(myToDoList.DaftarToDo);
             dgvTDL.Update();
             dgvTDL.Refresh();
         }
@@ -132,7 +146,7 @@ namespace com.yedijas.organizer.Forms
 
         private void RefreshNoteList()
         {
-            dgvNote.DataSource = myNoteList.ExportToDataTable();
+            dgvNote.DataSource = myDBHelper.ToDataTable<Note>(myNoteList.DaftarNote);
             dgvNote.Update();
             dgvNote.Refresh();
         }
@@ -205,7 +219,7 @@ namespace com.yedijas.organizer.Forms
 
         private void RefreshTaskList()
         {
-            dgvTasks.DataSource = myTaskList.ExportToDataTable();
+            dgvTasks.DataSource = myDBHelper.ToDataTable<Tasks>(myTaskList.DaftarTask);
             dgvTasks.Update();
             dgvTasks.Refresh();
         }

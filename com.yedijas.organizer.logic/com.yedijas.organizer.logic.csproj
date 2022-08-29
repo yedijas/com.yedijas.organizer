@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\DBHelper.cs" />
     <Compile Include="Notes\Note.cs" />
     <Compile Include="Notes\NoteList.cs" />
     <Compile Include="Projects\Projects.cs" />
@@ -55,9 +56,7 @@
     <Compile Include="ToDos\ToDoList.cs" />
     <Compile Include="ToDos\ToDo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helper\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
