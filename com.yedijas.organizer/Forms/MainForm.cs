@@ -18,13 +18,12 @@ namespace com.yedijas.organizer.Forms
     public partial class MainForm : Form
     {
         private ToDoList myToDoList;
-        private NoteList myNoteList;
         private TaskList myTaskList;
-        private DBHelper myDBHelper;
 
         public MainForm()
         {
             InitializeComponent();
+            InitDB();
             InitLists();
             RefreshAll();
         }
@@ -33,13 +32,12 @@ namespace com.yedijas.organizer.Forms
         private void InitLists()
         {
             myToDoList = new ToDoList();
-            myNoteList = new NoteList();
             myTaskList = new TaskList();
         }
 
         private void InitDB()
         {
-            myDBHelper = new DBHelper();
+            DBHelper.InitDB();
         }
         #endregion
 
@@ -110,7 +108,7 @@ namespace com.yedijas.organizer.Forms
 
         private void RefreshToDoList()
         {
-            dgvTDL.DataSource = myDBHelper.ToDataTable<ToDo>(myToDoList.DaftarToDo);
+            dgvTDL.DataSource = DBHelper.AllToDataTable<ToDo>();
             dgvTDL.Update();
             dgvTDL.Refresh();
         }
@@ -121,8 +119,7 @@ namespace com.yedijas.organizer.Forms
         {
             try
             {
-                int rowindex = dgvNote.SelectedRows[0].Index;
-                myNoteList.RemoveItem(rowindex);
+                DBHelper.DeleteItemByID<Note>((int)dgvNote.SelectedRows[0].Cells["ID"].Value);
                 RefreshNoteList();
             }
             catch (ArgumentOutOfRangeException)
@@ -138,7 +135,7 @@ namespace com.yedijas.organizer.Forms
             {
                 if (newNoteDialog.ShowDialog() == DialogResult.OK)
                 {
-                    myNoteList.AddItem(new Note(newNoteDialog.NoteDescription));
+                    DBHelper.AddItem<Note>(new Note(newNoteDialog.NoteDescription));
                 }
             }
             RefreshNoteList();
@@ -146,7 +143,7 @@ namespace com.yedijas.organizer.Forms
 
         private void RefreshNoteList()
         {
-            dgvNote.DataSource = myDBHelper.ToDataTable<Note>(myNoteList.DaftarNote);
+            dgvNote.DataSource = DBHelper.AllToDataTable<Note>();
             dgvNote.Update();
             dgvNote.Refresh();
         }
@@ -164,8 +161,6 @@ namespace com.yedijas.organizer.Forms
             }
             RefreshTaskList();
         }
-
-
 
         private void btDeleteTask_Click(object sender, EventArgs e)
         {
@@ -219,7 +214,7 @@ namespace com.yedijas.organizer.Forms
 
         private void RefreshTaskList()
         {
-            dgvTasks.DataSource = myDBHelper.ToDataTable<Tasks>(myTaskList.DaftarTask);
+            dgvTasks.DataSource = DBHelper.AllToDataTable<Tasks>();
             dgvTasks.Update();
             dgvTasks.Refresh();
         }

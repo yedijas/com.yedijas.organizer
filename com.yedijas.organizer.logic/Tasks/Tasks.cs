@@ -8,6 +8,7 @@ namespace com.yedijas.organizer.logic.Tasks
 {
     public class Tasks
     {
+        public int ID { get; set; }
         public bool Completed { get; set; }
         public DateTime Created { get; set; }
         public string Description { get; set; }
@@ -31,6 +32,27 @@ namespace com.yedijas.organizer.logic.Tasks
         public void MarkCompleted()
         {
             Completed = true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                Tasks n = (Tasks)obj;
+                return n.ID == this.ID &&
+                    n.Description.Equals(this.Description) &&
+                    n.Deadline.Equals(this.Deadline) &&
+                    n.Created.Equals(this.Created);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ID;
         }
     }
 }

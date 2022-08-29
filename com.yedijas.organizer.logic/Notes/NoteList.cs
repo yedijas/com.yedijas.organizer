@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using com.yedijas.organizer.logic.Helper;
 
 namespace com.yedijas.organizer.logic.Notes
 {
